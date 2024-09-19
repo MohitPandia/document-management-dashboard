@@ -1,86 +1,3 @@
-// import ReactPaginate from "react-paginate";
-
-// interface Document {
-//   name: string;
-//   size: number;
-//   uploadDate: string;
-//   url: string;
-// }
-
-// interface DocumentListProps {
-//   documents: Document[];
-//   pageCount: number;
-//   onPageChange: (event: { selected: number }) => void;
-//   search: (term: string) => void;
-// }
-
-// const DocumentList: React.FC<DocumentListProps> = ({
-//   documents,
-//   pageCount,
-//   onPageChange,
-//   search,
-// }) => {
-//   return (
-//     <div className="mt-8 max-w-4xl mx-auto">
-//       <ul className="space-y-4">
-//         {documents.map((doc) => (
-//           <li
-//             key={doc.url}
-//             className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 transition-transform transform hover:scale-105 hover:shadow-xl"
-//           >
-//             <div className="flex flex-col">
-//               <p className="font-bold text-2xl text-gray-800 mb-2 truncate">
-//                 {doc.name}
-//               </p>
-//               <p className="text-sm text-gray-600 mb-1">
-//                 Size: {doc.size} bytes
-//               </p>
-//               <p className="text-sm text-gray-600 mb-4">
-//                 Uploaded: {new Date(doc.uploadDate).toLocaleDateString()}
-//               </p>
-//               <a
-//                 href={doc.url}
-//                 target="_blank"
-//                 rel="noopener noreferrer"
-//                 className="text-indigo-600 hover:underline text-sm"
-//               >
-//                 Preview
-//               </a>
-//             </div>
-//           </li>
-//         ))}
-//       </ul>
-
-//       <div className="mt-6">
-//         <ReactPaginate
-//           previousLabel={"Previous"}
-//           nextLabel={"Next"}
-//           pageCount={pageCount}
-//           onPageChange={onPageChange}
-//           containerClassName={"flex justify-center space-x-2"}
-//           pageClassName={"page-item"}
-//           pageLinkClassName={
-//             "py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-100 transition"
-//           }
-//           previousClassName={"page-item"}
-//           previousLinkClassName={
-//             "py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-100 transition"
-//           }
-//           nextClassName={"page-item"}
-//           nextLinkClassName={
-//             "py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-100 transition"
-//           }
-//           activeClassName={"bg-indigo-600 text-white"}
-//           disabledClassName={"cursor-not-allowed opacity-50"}
-//         />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default DocumentList;
-
-
 import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
 import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
@@ -109,12 +26,60 @@ const DocumentList: React.FC<DocumentListProps> = ({
 }) => {
   const itemsPerPage = 5; // Number of items per page
   const [currentPage, setCurrentPage] = useState(0);
+  const [previewDocument, setPreviewDocument] = useState<Document | null>(null);
 
   // Calculate the slice of documents to display based on the current page
   const displayedDocuments = documents.slice(
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
   );
+
+  // Function to close the modal
+  const closeModal = () => setPreviewDocument(null);
+
+  // Modal rendering logic for document preview
+  const renderPreviewModal = () => {
+    if (!previewDocument) return null;
+
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full relative">
+          <button
+            onClick={closeModal}
+            className="absolute top-2 right-2 text-gray-600 hover:text-gray-800 text-3xl font-bold px-4 py-2"
+          >
+            &times;
+          </button>
+
+          {/* Updated document name color */}
+          <h3 className="text-lg font-bold mb-4" style={{ color: "#4A90E2" }}>
+            {previewDocument.name}
+          </h3>
+
+          {previewDocument.url.endsWith(".pdf") ? (
+            <embed
+              src={previewDocument.url}
+              type="application/pdf"
+              className="w-full h-96 border"
+            />
+          ) : (
+            <img
+              src={previewDocument.url}
+              alt={previewDocument.name}
+              className="w-full h-96 object-contain"
+            />
+          )}
+
+          <button
+            onClick={closeModal}
+            className="mt-4 bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="mt-8 max-w-4xl mx-auto">
@@ -136,17 +101,18 @@ const DocumentList: React.FC<DocumentListProps> = ({
               </p>
             </div>
             <div className="flex items-center space-x-4">
-              <a
-                href={doc.url}
-                target="_blank"
-                rel="noopener noreferrer"
+              {/* Preview button with tooltip */}
+              <button
+                onClick={() => setPreviewDocument(doc)}
                 className="text-indigo-600 hover:underline text-sm flex items-center group relative"
               >
                 <EyeIcon className="h-6 w-6" />
                 <span className="ml-2 hidden group-hover:inline absolute -bottom-8 left-0 bg-gray-800 text-white text-xs rounded py-1 px-2">
                   Preview
                 </span>
-              </a>
+              </button>
+
+              {/* Delete button with tooltip */}
               <button
                 onClick={() => onDelete(doc.url)}
                 className="text-red-600 hover:text-red-800 flex-shrink-0 flex items-center group relative"
@@ -160,6 +126,8 @@ const DocumentList: React.FC<DocumentListProps> = ({
           </li>
         ))}
       </ul>
+
+      {renderPreviewModal()}
 
       <div className="mt-6">
         <ReactPaginate

@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 export default async function uploadDocument(formData: FormData) {
   const file = formData.get('file') as Blob;
 
@@ -22,12 +21,6 @@ export default async function uploadDocument(formData: FormData) {
       });
       // Extract the X-Token from the response headers
     const token = response.headers['x-token'];
-    // Log or handle the token if needed
-    console.log('Extracted Token:', token);
-    console.log('url:', response);
-    // console.log('Extracted Token:', response.headers);
-
-
     // The response will contain the file URL only
     const fileUrl = response.data.trim();
 
