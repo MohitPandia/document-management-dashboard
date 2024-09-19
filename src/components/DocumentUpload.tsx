@@ -6,6 +6,7 @@ interface DocumentUploadProps {
 }
 
 interface Document {
+  id:string;
   name: string;
   size: number;
   uploadDate: string;
@@ -58,6 +59,7 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onUpload }) => {
 
       // Pass the file information back via the onUpload callback
       onUpload({
+        id: document.id,
         name: file.name,
         size: file.size,
         uploadDate: new Date().toISOString(),
