@@ -5,7 +5,7 @@ export default async function uploadDocument(formData: FormData) {
   const file = formData.get('file') as Blob;
 
   if (!file) {
-    return { error: 'No file provided' ,status: 400 };
+    return { error: 'No file provided', status: 400 };
   }
 
   try {
@@ -16,12 +16,12 @@ export default async function uploadDocument(formData: FormData) {
 
     // Send the file to 0x0.st-
     const response = await axios.post('https://0x0.st', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        responseType: 'text' 
-      });
-      // Extract the X-Token from the response headers
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      responseType: 'text'
+    });
+    // Extract the X-Token from the response headers
     const token = response.headers['x-token'];
     // The response will contain the file URL only
     const fileUrl = response.data.trim();
@@ -33,7 +33,7 @@ export default async function uploadDocument(formData: FormData) {
       size: (file as File).size,
       uploadDate: new Date().toISOString(),
     };
-    
+
     // Retrieve existing image data from localStorage
     let imageArray = JSON.parse(localStorage.getItem("image") || "[]");
     console.log("data: ", imageArray);
@@ -45,6 +45,6 @@ export default async function uploadDocument(formData: FormData) {
 
     return { success: true, document, status: 200 };
   } catch (error) {
-    return {error: 'File upload failed' , status: 500};
+    return { error: 'File upload failed', status: 500 };
   }
 }

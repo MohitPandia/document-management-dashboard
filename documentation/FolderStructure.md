@@ -9,6 +9,8 @@ src
         |-- api
             |-- documentUpload
                 |-- DocumentUploadRoute
+            |-- documentDelete
+                |-- DocumentDeleteRoute
         |-- fonts
         |-- pages
             |-- Dashboard.tsx
@@ -45,7 +47,7 @@ The primary source directory for application code and components.
 
 The `app` folder contains all the pages and components that are used for routing and layout management in the application.
 
-- `./src/app/api`: Contains API routes and handlers.
+- `./src/app/api`: Contains API routes and handlers which take care of upload and delete.
 - `./src/app/fonts`: Stores custom fonts used throughout the application.
 - `./src/app/pages`: Holds page components for different routes, such as `Dashboard.tsx`, which represents the main dashboard page.
 - `./src/app/pages.tsx`: Entry point for routing and page composition.

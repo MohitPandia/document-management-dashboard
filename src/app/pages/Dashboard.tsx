@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import DocumentUpload from '../../components/DocumentUpload';
 import DocumentList from '../../components/DocumentList';
+import DocumentDelete from '../api/documentDelete/DocumentDeleteRoute'; // Import the delete function
 
 interface Document {
   id: string;
@@ -19,10 +20,9 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    // Check local storage first
     const storedDocuments = JSON.parse(localStorage.getItem("image") || "[]");
     if (storedDocuments.length > 0) {
-      setDocuments(storedDocuments);
+      setDocuments(storedDocuments.reverse());
     } else {
       fetchDocuments(currentPage, searchTerm);
     }
@@ -39,22 +39,16 @@ const Dashboard = () => {
     setCurrentPage(event.selected);
   };
 
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
-  };
-
   const handleDelete = (id: string) => {
-    // Remove document from local storage
-    let imageArray = JSON.parse(localStorage.getItem("image") || "[]");
-    imageArray = imageArray.filter((doc: Document) => doc.id !== id);
-    localStorage.setItem("image", JSON.stringify(imageArray));
-
-    // Update the state to remove the document from the list
-    setDocuments((prevDocs) => prevDocs.filter((doc) => doc.id !== id));
+    try {
+      const updatedDocuments = DocumentDelete(id);  
+      setDocuments(updatedDocuments);
+    } catch (error) {
+      console.error('Error deleting document:', error);
+    }
   };
 
   const handleUpload = (document: Document) => {
-    console.log("Document uploaded:", document);
     setDocuments([document, ...documents]);
   };
 
@@ -65,12 +59,11 @@ const Dashboard = () => {
         <DocumentUpload onUpload={handleUpload} />
       </div>
       <div className="w-full max-w-4xl mt-8 bg-white p-6 shadow-lg rounded-lg">
-        <DocumentList 
+        <DocumentList
           documents={documents}
           pageCount={pageCount}
           onPageChange={handlePageClick}
-          search={handleSearch}
-          onDelete={handleDelete}
+          onDelete={handleDelete}  // Updated to use direct delete logic
         />
       </div>
     </div>

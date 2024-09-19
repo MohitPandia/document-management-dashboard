@@ -3,7 +3,7 @@
 
 ## Overview
 
-The assignment evaluates proficiency in Next.js 14 by requiring the development of a document management system featuring a user-friendly upload interface for various document formats, a paginated and searchable document list with detailed information, and in-app document previews. It involves leveraging Next.js features for routing and component management, handling complex workflows, and utilizing local storage for document metadata persistence and state management across page refreshes.
+The assignment evaluates proficiency in Next.js 14 by requiring the development of a document management system featuring a user-friendly upload interface for various document formats, the list with detailed information, and in-app document previews. It involves leveraging Next.js features for routing and component management, handling complex workflows, and utilizing local storage for document metadata persistence and state management across page refreshes.
 
 ## Documentation
 
