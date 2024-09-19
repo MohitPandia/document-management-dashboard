@@ -131,29 +131,21 @@ const DocumentList: React.FC<DocumentListProps> = ({
 
       <div className="mt-6">
         <ReactPaginate
-          previousLabel={"Previous"}
-          nextLabel={"Next"}
-          pageCount={pageCount}
-          onPageChange={(event) => {
-            setCurrentPage(event.selected);
-            onPageChange(event);
-          }}
-          containerClassName={"flex justify-center space-x-2"}
-          pageClassName={"page-item"}
-          pageLinkClassName={
-            "py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-100 transition"
-          }
-          previousClassName={"page-item"}
-          previousLinkClassName={
-            "py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-100 transition"
-          }
-          nextClassName={"page-item"}
-          nextLinkClassName={
-            "py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-100 transition"
-          }
-          activeClassName={"bg-indigo-600 text-white"}
-          disabledClassName={"cursor-not-allowed opacity-50"}
-        />
+        previousLabel={"Prev"}
+        nextLabel={"Next"}
+        breakLabel={"..."}
+        breakClassName={"break-me"}
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={onPageChange}
+        containerClassName={"pagination flex justify-center mt-4"}
+        pageClassName={"mx-1"}
+        pageLinkClassName={"px-4 py-2 bg-white text-gray-700 rounded-lg hover:bg-gray-200"}
+        previousLinkClassName={"px-4 py-2 bg-white text-gray-700 rounded-l-lg hover:bg-gray-200"}
+        nextLinkClassName={"px-4 py-2 bg-white text-gray-700 rounded-r-lg hover:bg-gray-200"}
+        activeClassName={"bg-blue-500 text-white"}
+      />
       </div>
     </div>
   );
