@@ -35,6 +35,11 @@ const DocumentList: React.FC<DocumentListProps> = ({
     setTimeout(() => setMessage(null), 2500); // Hide the message after 2.5 seconds
   };
 
+  // Update the current page when pagination changes
+  const handlePageChange = (selectedItem: { selected: number }) => {
+    setCurrentPage(selectedItem.selected);
+  };
+
   // Calculate the slice of documents to display based on the current page
   const displayedDocuments = documents.slice(
     currentPage * itemsPerPage,
@@ -52,7 +57,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
       <ul className="space-y-4">
         {displayedDocuments.map((doc) => (
           <li
-            key={doc.url}
+            key={doc.id} // Ensure you're using a unique identifier like `id` instead of `url`
             className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 transition-transform transform hover:scale-105 hover:shadow-xl flex items-start justify-between"
           >
             <div className="flex flex-col flex-grow">
@@ -103,10 +108,10 @@ const DocumentList: React.FC<DocumentListProps> = ({
           nextLabel={"Next"}
           breakLabel={"..."}
           breakClassName={"break-me"}
-          pageCount={pageCount}
+          pageCount={Math.ceil(documents.length / itemsPerPage)} // Dynamically calculate based on documents
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
-          onPageChange={onPageChange}
+          onPageChange={handlePageChange}
           containerClassName={"pagination flex justify-center mt-4"}
           pageClassName={"mx-1"}
           pageLinkClassName={"px-4 py-2 bg-white text-gray-700 rounded-lg hover:bg-gray-200"}
