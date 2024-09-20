@@ -19,4 +19,4 @@ The assignment evaluates proficiency in Next.js 14 by requiring the development 
 
 🔍 *Please click on the links above to navigate to the respective sections of the documentation.*
 
-📌 If you have any questions or need further assistance, feel free to reach out to the maintainers of this repository.
+📌 If you have any questions or need further assistance, feel free to reach out to the owner of this repo [Yash_Pandia](https://www.linkedin.com/in/yashpandia/)

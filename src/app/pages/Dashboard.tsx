@@ -1,3 +1,4 @@
+//this app is developed by Yash Pandia to demonstrate his code writing skills in next.js 14 and to showcase the concept of modularity
 'use client';
 
 import { useState, useEffect } from 'react';
